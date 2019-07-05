@@ -4,6 +4,9 @@
 
 #include "Engine.h"
 #include "GameFramework/Actor.h"
+#include "ConstructorHelpers.h"
+#include "Components/StaticMeshComponent.h"
+#include "Engine/StaticMesh.h"
 #include "Engine/World.h"
 #include "Boss.generated.h"
 
@@ -28,9 +31,28 @@ public:
 		USoundWave* bossHit;	
 
 	USphereComponent* _collision;
+	UPROPERTY(EditAnywhere)
+		UStaticMeshComponent* skull;
 
 	bool Overlaping;
 	bool MaterialSetted;
+	bool debuffOn;
+
+	UPROPERTY(EditAnywhere)
+		float timerToDebufSlowGame;
+	UPROPERTY(EditAnywhere)
+		float debufDuration;
+	UPROPERTY(EditAnywhere)
+		float slowGameSpeed;
+	UPROPERTY(EditAnywhere)
+		float timerToDebufMultiplier;
+	UPROPERTY(EditAnywhere)
+		float debufDurationMultiplier;
+	UPROPERTY(EditAnywhere)
+		AActor* debufLeft;
+	UPROPERTY(EditAnywhere)
+		AActor* debufRight;
+	
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -46,4 +68,12 @@ public:
 			int32 OtherBodyIndex,
 			bool bFromSweep,
 			const FHitResult &SweepResult);
+	UFUNCTION()
+		void slowSpeedDebuff();	
+	UFUNCTION()
+		void slowSpeedDebuffFinish();
+	UFUNCTION()
+		void setOnDebuffMultiplier();
+	UFUNCTION()
+		void setOffDebufMultiplier();
 };
