@@ -11,7 +11,7 @@ ABoss::ABoss()
 	//Register Events
 	skull = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Cube Mesh"));
 	_collision = CreateDefaultSubobject<USphereComponent>(TEXT("RootCollision"));
-	_collision->SetSphereRadius(5);
+	_collision->SetSphereRadius(0.7f);
 	_collision-> OnComponentBeginOverlap.AddDynamic(this, &ABoss::BeginOverlap);
 
 	ConstructorHelpers::FObjectFinder<UStaticMesh> skullMesh(TEXT("StaticMesh'/Game/Assets/Skull.Skull'"));
@@ -25,7 +25,7 @@ ABoss::ABoss()
 		Rotation.Yaw = -180.0f;
 		Rotation.Pitch = 0.0f;
 		Rotation.Roll = 90.0f;
-
+		
 		skull->SetRelativeRotation(Rotation);
 	}
 }
