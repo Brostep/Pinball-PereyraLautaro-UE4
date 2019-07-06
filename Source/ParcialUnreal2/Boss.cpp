@@ -48,7 +48,9 @@ void ABoss::BeginPlay()
 	GetWorldTimerManager().SetTimer(
 		UnusedHandle, this, &ABoss::setOnDebuffMultiplier, timerToDebufMultiplier, false);
 	debufLeft->SetActorHiddenInGame(true);
+	debufLeft->SetActorEnableCollision(false);
 	debufRight->SetActorHiddenInGame(true);
+	debufRight->SetActorEnableCollision(false);
 
 }
 
@@ -58,7 +60,7 @@ void ABoss::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	Overlaping = false;
-	if (MaterialSetted == false && Overlaping == false && debuffOn == false)
+	if ((MaterialSetted == false && Overlaping == false) || debuffOn == false)
 	{
 		if (myMaterial)
 		{
@@ -131,10 +133,16 @@ void ABoss::setOnDebuffMultiplier()
 		FActorSpawnParameters params = FActorSpawnParameters();
 
 		auto leftORight = FMath::RandRange(1, 10);
-		if (leftORight >5)
+		if (leftORight > 5)
+		{
 			debufLeft->SetActorHiddenInGame(false);
+			debufLeft->SetActorEnableCollision(true);
+		}
 		else
+		{
 			debufRight->SetActorHiddenInGame(false);
+			debufRight->SetActorEnableCollision(true);
+		}
 
 		FTimerHandle UnusedHandle;
 		GetWorldTimerManager().SetTimer(
@@ -149,9 +157,10 @@ void ABoss::setOnDebuffMultiplier()
 }
 void ABoss::setOffDebufMultiplier()
 {
-
 	debufLeft->SetActorHiddenInGame(true);
+	debufLeft->SetActorEnableCollision(false);
 	debufRight->SetActorHiddenInGame(true);
+	debufRight->SetActorEnableCollision(false);
 	//clean
 	debuffOn = false;
 	FVector green = FVector(0, 1.f, 0.0f);
